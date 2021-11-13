@@ -1,0 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Fruktur&family=Irish+Grover&display=swap');
+
+.card {
+    background-color: rgba(245, 245, 245, 0);
+    width: 500px;
+    border: none;
+    margin-left: 50px;
+    font-family: 'Fruktur', cursive;
+    font-family: 'Irish Grover', cursive;
+    color: yellow;
+}
