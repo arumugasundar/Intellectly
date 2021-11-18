@@ -7,9 +7,11 @@ import SignUp from "./components/Auth/SignUp/SignUp"
 import LogIn from "./components/Auth/LogIn/LogIn"
 import TestCreator from "./components/TestCreator/TestCreator"
 import TestWriter from "./components/TestWriter/TestWriter";
+
 import Cookie from "js-cookie";
 import { ProtectedRoute } from "./components/Shared/ProtectedRoute"
 import { ProtectedEntryRoute } from "./components/Shared/ProtectedEntryRoute"
+import EditTest from "./components/TestCreator/EditTest";
 
 function App() {
     const [token, setToken] = useState('');
@@ -29,8 +31,9 @@ function App() {
                     <ProtectedEntryRoute path={"/login"} exact component={LogIn} token={token} setToken={setToken} />
                     <ProtectedEntryRoute path={"/signup"} exact component={SignUp} />
 
-                    <ProtectedRoute path={"/createQuiz"} exact component={TestCreator} />
-                    <ProtectedRoute path={"/takeQuiz"} exact component={TestWriter} />
+                    <ProtectedRoute path={"/TestCreator"} exact component={TestCreator} />
+                    <ProtectedRoute path={"/TestWriter"} exact component={TestWriter} />
+                    <ProtectedRoute path={"/EditTest"} exact component={EditTest} />
                     <Redirect to={"/"} />
                 </Switch>
             </Router>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
+import {Navbar, Nav, NavDropdown} from 'react-bootstrap';
 import './Header.css'
 import logo from './logo.png'
 import Cookie from "js-cookie";
@@ -32,8 +32,8 @@ const Header = props => {
 
             {props.token?
                 <Nav className={"navbar-brand collapse navbar-collapse"}>
-                    <Link className="navbar-brand" to="/createQuiz"> <button> Create Quiz </button> </Link>
-                    <Link className="navbar-brand" to="/takeQuiz"> <button> Take Quiz </button> </Link>
+                    <Link className="navbar-brand" to="/TestCreator"> <button> Create Quiz </button> </Link>
+                    <Link className="navbar-brand" to="/TestWriter"> <button> Take Quiz </button> </Link>
                 </Nav>:null
             }
 
@@ -50,6 +50,7 @@ const Header = props => {
                 </Nav>
             }
         </Navbar>
+
     );
 };
 
