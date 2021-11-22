@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import './TestCreator.css'
-import {Link, Redirect} from "react-router-dom";
+import {Link} from "react-router-dom";
 import Cookie from "js-cookie";
 import jwt from "jsonwebtoken";
 import axios from "axios";
@@ -25,7 +25,7 @@ const TestCreator = props => {
 
     useEffect(()=>{
 
-        axios.post("http://localhost:4000/test/fetchTestTitles",{mail:mail})
+        axios.post("http://localhost:4000/test/creator/fetchTestTitles",{mail:mail})
             .then((response)=>{
                 setQuizList([...response.data]);
             })
@@ -42,7 +42,7 @@ const TestCreator = props => {
 
     const DeleteQuizHandler = async (title,index) => {
 
-        const response = await axios.post("http://localhost:4000/test/delete",{
+        const response = await axios.post("http://localhost:4000/test/creator/delete",{
             mail:mail,
             title:title,
         });
@@ -54,8 +54,10 @@ const TestCreator = props => {
         setQuizList(values);
     }
 
-    const ViewQuizResultsHandler = () => {
-
+    const ViewQuizResultsHandler = (title,creatorMail) => {
+        setTimeout(() => {
+            history.push('/ViewResultsTeacher',{quizTitle:title,creatorMail:creatorMail})
+        }, 500)
     }
 
     const handleToClose = () => {
@@ -91,8 +93,7 @@ const TestCreator = props => {
                         variant="contained"
                         color="primary"
                         type="button"
-                        disabled={true}
-                        onClick={() => ViewQuizResultsHandler}
+                        onClick={() => ViewQuizResultsHandler(quizList.title,mail)}
                     >View Results</Button>
                 </div>
             ))}

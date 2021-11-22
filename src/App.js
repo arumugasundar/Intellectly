@@ -12,6 +12,10 @@ import Cookie from "js-cookie";
 import { ProtectedRoute } from "./components/Shared/ProtectedRoute"
 import { ProtectedEntryRoute } from "./components/Shared/ProtectedEntryRoute"
 import EditTest from "./components/TestCreator/EditTest";
+import TakeTest from "./components/TestWriter/TakeTest";
+import ViewResultsStudent from "./components/TestWriter/ViewResults";
+import ViewResultsTeacher from "./components/TestCreator/ViewResults";
+import ViewIndividualTestResults from "./components/Shared/ViewIndividualTestResults/ViewIndividualTestResults";
 
 function App() {
     const [token, setToken] = useState('');
@@ -34,6 +38,10 @@ function App() {
                     <ProtectedRoute path={"/TestCreator"} exact component={TestCreator} />
                     <ProtectedRoute path={"/TestWriter"} exact component={TestWriter} />
                     <ProtectedRoute path={"/EditTest"} exact component={EditTest} />
+                    <ProtectedRoute path={"/TakeTest"} exact component={TakeTest} />
+                    <ProtectedRoute path={"/ViewResultsStudent"} exact component={ViewResultsStudent}/>
+                    <ProtectedRoute path={"/ViewResultsTeacher"} exact component={ViewResultsTeacher}/>
+                    <ProtectedRoute path={"/ViewIndividualTestResults"} exact component={ViewIndividualTestResults}/>
                     <Redirect to={"/"} />
                 </Switch>
             </Router>

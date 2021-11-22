@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import './SignUp.css'
 import face from "../face.png";
 import axios from "axios";
+import validator from 'validator'
 import Snackbar from '@mui/material/Snackbar';
 import {useHistory} from "react-router-dom";
 
@@ -22,6 +23,37 @@ const SignUp = props => {
     const handleChange = e => {
         setUserData({...userData,[e.target.name]:e.target.value})
     }
+
+    // For Email Validation
+    const [emailError, setEmailError] = useState(null)
+    const validateEmail = (email) => {
+        //var email = e.target.value
+
+        if (validator.isEmail(email)) {
+            setEmailError(null)
+        } else {
+            setEmailError('Enter valid Email!')
+        }
+    }
+
+    // For Password Validation
+    const [passwordError, setPasswordError] = useState('');
+    const [passwordErrorColor, setPasswordErrorColor] = useState('yellow');
+
+    const validatePassword = (value) => {
+
+        if (validator.isStrongPassword(value, {
+            minLength: 8, minLowercase: 1,
+            minUppercase: 1, minNumbers: 1, minSymbols: 1
+        })) {
+            setPasswordError('Strong Password!')
+            setPasswordErrorColor('lightgreen')
+        } else {
+            setPasswordError('Password is weak!')
+            setPasswordErrorColor('yellow')
+        }
+    }
+
 
     const handleSubmit = async e => {
         e.preventDefault();
@@ -54,8 +86,18 @@ const SignUp = props => {
 
                     <div className ={"col-12 form-input"}>
                         <form onSubmit={handleSubmit} onChange={handleChange}>
-                            <div className={"form-group"}><input type={"email"} className={"form-control"} placeholder={"Enter Email"} name={"mail"}/></div>
-                            <div className={"form-group"}><input type={"password"} className={"form-control"} placeholder={"Enter Password"} name={"password"}/></div>
+                            <div className={"form-group"}><input type={"email"} className={"form-control"} placeholder={"Enter Email"} name={"mail"} onChange={e => validateEmail(e.target.value)}/>{emailError?<p style={{fontWeight: 'bold', color: passwordErrorColor}}>Invalid Email!</p>:null}</div>
+                            <div className={"form-group"}>
+                                <input type={"password"} className={"form-control"} placeholder={"Enter Password"} name={"password"} onChange={e => validatePassword(e.target.value)}/>
+                                <span style={{
+                                    fontWeight: 'bold',
+                                    color: passwordErrorColor,
+                                }}>{passwordError}</span>
+                                {(passwordError === "Password is weak!")?
+                                    <p style={{color: 'lightgreen'}}>Minimum of 8 characters needed with atleast one character belonging to lowercase, uppercase, numbers and symbols. </p>
+                                    :null
+                                }
+                            </div>
                             <div className={"form-group"}><input type={"password"} className={"form-control"} placeholder={"Confirm Password"} name={"confirmPassword"}/></div>
                             <button type={"submit"} className={"btn btn-success"}>SignUp</button>
                         </form>

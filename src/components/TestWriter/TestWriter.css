@@ -1,0 +1,20 @@
+.quiz-item{
+    /*margin: 5px 10px 10px;*/
+    /*border: 1px solid grey;*/
+    /*border-radius: 5px;*/
+    /*padding: 20px;*/
+    /*display:flex;*/
+    /*column-gap: 20px;*/
+    /*justify-content: space-between;*/
+    /*width: 50%;*/
+}
+
+.button-style{
+   /* float: right;*/
+   /*display: flex;*/
+}
+
+.test-writer-container{
+    background-color: white;
+
+}

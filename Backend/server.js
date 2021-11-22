@@ -17,7 +17,8 @@ mongoose
     });
 
 app.use("/auth", require("./auth"))
-app.use("/test",require("./TestCreator"))
+app.use("/test/creator",require("./TestCreator"))
+app.use("/test/writer",require("./TestWriter"))
 app.listen(PORT, () => {
     console.log(`Server at ${PORT}`);
 });

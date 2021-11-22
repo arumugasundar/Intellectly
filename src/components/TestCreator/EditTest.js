@@ -21,6 +21,7 @@ const EditTest = props => {
     const mail = decode.mail;
 
     const [title,setTitle] = useState('');
+    const [timeLimit,setTimeLimit] = useState('');
     const [questions,setQuestions] = useState([
         {
             question_text:'',
@@ -36,10 +37,11 @@ const EditTest = props => {
             setTitle(props.location.state.quizTitle);
             //console.log(title,props.location.state.quizTitle);
             setTitleDisabled(!titleDisabled);
-            axios.post("http://localhost:4000/test/fetchTestData",{mail:mail,title:props.location.state.quizTitle})
+            axios.post("http://localhost:4000/test/creator/fetchTestData",{mail:mail,title:props.location.state.quizTitle})
                     .then((response) => {
                         console.log(response.data.questions);
                         if(response.data.questions) setQuestions(response.data.questions);
+                        if(response.data.timeLimit) setTimeLimit(response.data.timeLimit);
                     })
                     .catch(error => { console.log(error)})
         }
@@ -61,10 +63,11 @@ const EditTest = props => {
         e.preventDefault();
         //console.log(questions);
         if(props.location.state && props.location.state.quizTitle){
-            const response = await axios.post("http://localhost:4000/test/update",{
+            const response = await axios.post("http://localhost:4000/test/creator/update",{
                 mail:mail,
                 title:title,
                 questions:questions,
+                timeLimit:timeLimit
                 // assignee:assignee
             });
 
@@ -73,10 +76,11 @@ const EditTest = props => {
                 setRedirect(true);
             }
         }else{
-            const response = await axios.post("http://localhost:4000/test/create",{
+            const response = await axios.post("http://localhost:4000/test/creator/create",{
                 mail:mail,
                 title:title,
                 questions:questions,
+                timeLimit:timeLimit
                 // assignee:assignee
             });
 
@@ -114,7 +118,15 @@ const EditTest = props => {
                     name={"title"}
                     label={"Quiz Title"}
                     value={title}
+                    required={true}
                     onChange={(e)=>{setTitle(e.target.value)}}
+                />&nbsp;&nbsp;
+                <TextField
+                    name={"timeLimit"}
+                    label={"Estimated Time in Minutes"}
+                    value={timeLimit}
+                    required={true}
+                    onChange={(e)=>{setTimeLimit(e.target.value)}}
                 />
                 { questions.map((questions,index) => (
                     <div key={index}>
@@ -125,6 +137,7 @@ const EditTest = props => {
                             name={"question_text"}
                             label={"Question"}
                             value={questions.question_text}
+                            required={true}
                             onChange={event => ChangeHandler(index,event)}
                         /><br /><br />
 
@@ -133,6 +146,7 @@ const EditTest = props => {
                             name={"option1"}
                             label={"Option 1"}
                             value={questions.option1}
+                            required={true}
                             onChange={event => ChangeHandler(index,event)}
                         />&nbsp;&nbsp;
                         <TextField
@@ -140,6 +154,7 @@ const EditTest = props => {
                             name={"option2"}
                             label={"Option 2"}
                             value={questions.option2}
+                            required={true}
                             onChange={event => ChangeHandler(index,event)}
                         />&nbsp;&nbsp;
                         <TextField
@@ -147,6 +162,7 @@ const EditTest = props => {
                             name={"option3"}
                             label={"Option 3"}
                             value={questions.option3}
+                            required={true}
                             onChange={event => ChangeHandler(index,event)}
                         />&nbsp;&nbsp;
                         <TextField
@@ -154,6 +170,7 @@ const EditTest = props => {
                             name={"option4"}
                             label={"Option 4"}
                             value={questions.option4}
+                            required={true}
                             onChange={event => ChangeHandler(index,event)}
                         />
                         <br/><br/>
@@ -162,6 +179,7 @@ const EditTest = props => {
                             name={"crt_answer"}
                             label={"Correct Answer"}
                             value={questions.crt_answer}
+                            required={true}
                             onChange={event => ChangeHandler(index,event)}
                         />&nbsp;&nbsp;
                         <TextField
@@ -169,8 +187,10 @@ const EditTest = props => {
                             name={"mark"}
                             label={"Marks"}
                             value={questions.mark}
+                            required={true}
                             onChange={event => ChangeHandler(index,event)}
-                        /><br /><br />
+                        />
+                        <br /><br />
                         <Button
                             variant="contained"
                             color="primary"

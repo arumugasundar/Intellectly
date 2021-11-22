@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const TestModel = require('./TestModel');
+const TestAttemptModel = require('./TestAttemptModel');
 
 router.post('/create', async(req,res) => {
 
@@ -13,7 +14,8 @@ router.post('/create', async(req,res) => {
     const test = new TestModel({
         mail:req.body.mail,
         title:req.body.title,
-        questions:req.body.questions
+        questions:req.body.questions,
+        timeLimit:req.body.timeLimit
     });
 
     test.save((error,response) => {
@@ -27,9 +29,22 @@ router.post('/create', async(req,res) => {
 
 router.post('/update', async(req,res) => {
     //console.log("Update Request :",req.body)
-    TestModel.findOneAndUpdate({mail:req.body.mail,title:req.body.title},{questions:req.body.questions})
+    TestModel.findOneAndUpdate({mail:req.body.mail,title:req.body.title},{questions:req.body.questions,timeLimit:req.body.timeLimit})
         .then(() =>{ return res.json({message: "Test Updated Successfully"});})
         .catch((error) => { return res.json({message: error});})
+})
+
+router.post('/fetchTestAttemptDetails', async (req, res) => {
+    // console.log(req.body);
+    TestAttemptModel.find(
+        {
+            creatorMail:req.body.creatorMail,
+            title:req.body.title
+        },
+        {"title":1,"writerMail":1,"timeLimit":1,"timestamp":1}).then(response => {
+        // console.log("fetchTestAttemptDetails response :",response);
+        return res.json(response);
+    })
 })
 
 router.post('/fetchTestTitles', async(req,res) => {
@@ -57,6 +72,9 @@ router.post('/delete', async(req,res) => {
 
     TestModel.deleteOne({"mail":req.body.mail,"title":req.body.title})
         .then(() => {
+            TestAttemptModel.deleteMany({"creatorMail":req.body.mail,"title":req.body.title}).then(() => {
+                console.log("Test Attempts Deleted Successfully");
+            });
             return res.json({message: "Quiz Deleted Successfully"});
         })
         .catch((error) =>{ return res.json({message: error});})
